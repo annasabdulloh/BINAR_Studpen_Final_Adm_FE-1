@@ -4,7 +4,10 @@ import "./Popup.css";
 
 const Popup = ({ onClose }) => {
   return (
-    <div className="popup">
+    <div className="popup" style={{
+      borderRadius: "8px",
+      textAlign: "center"
+    }}>
       <div className="popup-delete">
         <div className="frame-div47">
           <div className="frame-div48">

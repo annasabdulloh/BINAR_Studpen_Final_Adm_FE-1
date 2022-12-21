@@ -4,12 +4,16 @@ import {
   useNavigationType,
   useLocation,
 } from "react-router-dom";
-import AdminDaftarUser1 from "./pages/AdminDaftarUser1";
+// import AdminDaftarUser1 from "./pages/AdminDaftarUser1";
 import AdminTiketTerjual from "./pages/AdminTiketTerjual";
 import AdminTambahTiket from "./pages/AdminTambahTiket";
 import AdminDataTransfer from "./pages/AdminDataTransfer";
 import AdminTiketTersedia from "./pages/AdminTiketTersedia";
 import { useEffect } from "react";
+import MainFrame from "./components/MainFrame";
+import UserContent from "./pages/UserContent";
+import Login from './pages/Login'
+import { ProtectedRoute } from "./components/Protected";
 
 function App() {
   const action = useNavigationType();
@@ -66,15 +70,19 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<AdminDaftarUser1 />} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/" element={<ProtectedRoute><MainFrame ><UserContent/></MainFrame></ProtectedRoute>} />
 
-      <Route path="/admin-tiketterjual" element={<AdminTiketTerjual />} />
+      <Route path="/admin-tiketterjual" element={<ProtectedRoute><MainFrame ><AdminTiketTerjual/></MainFrame></ProtectedRoute>} />
 
-      <Route path="/admin-tambahtiket1" element={<AdminTambahTiket />} />
+      <Route path="/admin-tambahtiket1" element={<ProtectedRoute><MainFrame ><AdminTambahTiket/></MainFrame></ProtectedRoute>} />
+      <Route path="/admin-tikettersedia1" element={<ProtectedRoute><MainFrame ><AdminTiketTersedia/></MainFrame></ProtectedRoute>} />
+      <Route path="/admin-datatransfer1" element={<ProtectedRoute><MainFrame ><AdminDataTransfer/></MainFrame></ProtectedRoute>} />
+      {/* <Route path="/admin-tambahtiket1" element={<AdminTambahTiket />} />
 
       <Route path="/admin-datatransfer1" element={<AdminDataTransfer />} />
 
-      <Route path="/admin-tikettersedia1" element={<AdminTiketTersedia />} />
+      <Route path="/admin-tikettersedia1" element={<AdminTiketTersedia />} /> */}
     </Routes>
   );
 }

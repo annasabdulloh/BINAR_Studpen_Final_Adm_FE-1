@@ -1,8 +1,12 @@
-import "./DetailUser1.css";
+import "./DetailUser.css";
 
-const DetailUser1 = ({ onClose }) => {
+const DetailUser = ({ onClose }) => {
   return (
-    <div className="detail-user1">
+    <div className="detail-user1" style={{
+      padding: "25px",
+      borderRadius: "8px",
+      fontSize: "11pt"
+    }}>
       <div className="group-div12">
         <div className="rectangle-div9" />
         <div className="group-div13">
@@ -68,4 +72,4 @@ const DetailUser1 = ({ onClose }) => {
   );
 };
 
-export default DetailUser1;
+export default DetailUser;
