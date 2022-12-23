@@ -211,13 +211,13 @@ const AdminTambahTiket = () => {
                       <label htmlFor="inputkeberangkatan" className="form-label">
                         Keberangkatan
                       </label>
-                      <input ref={date_air} type="date" className="form-control" id="inputkeberangkatan" placeholder="" />
+                      <input ref={date_air} type="datetime-local" className="form-control" id="inputkeberangkatan" placeholder="" />
                     </div>
                     <div className="col-12">
                       <label htmlFor="inputsampai" className="form-label">
                         Sampai
                       </label>
-                      <input ref={estimated_up_dest} type="date" className="form-control" id="inputsampai" placeholder="" />
+                      <input ref={estimated_up_dest} type="datetime-local" className="form-control" id="inputsampai" placeholder="" />
                     </div>
                     <div className="col-md-6">
                       <label htmlFor="inputharga" className="form-label">
