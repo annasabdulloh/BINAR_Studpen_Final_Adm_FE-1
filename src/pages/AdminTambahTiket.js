@@ -174,9 +174,8 @@ const AdminTambahTiket = () => {
               >
                 <div className="cari-tiket">Tambah Tiket</div>
               </div>
-              <div className="frame-div268">
+              <div className="text-start">
                 <div
-                  className="daftar-user8"
                   style={{
                     fontSize: '12pt',
                     borderRadius: '8px',
