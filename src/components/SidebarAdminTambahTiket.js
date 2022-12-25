@@ -1,40 +1,38 @@
-import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./SidebarAdminTambahTiket.css";
+import { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './SidebarAdminTambahTiket.css';
 
 const SidebarAdminTambahTiket = ({ onClose }) => {
   const navigate = useNavigate();
 
   const onNavItemContainer1Click = useCallback(() => {
-    navigate("/");
+    navigate('/');
   }, [navigate]);
 
   const onNavItemContainer2Click = useCallback(() => {
-    navigate("/admin-tiketterjual");
+    navigate('/admin-tiketterjual');
   }, [navigate]);
 
   const onNavItemContainer3Click = useCallback(() => {
-    navigate("/admin-tikettersedia1");
+    navigate('/admin-tikettersedia1');
   }, [navigate]);
 
   const onNavItemContainer4Click = useCallback(() => {
-    navigate("/admin-tambahtiket1");
+    navigate('/admin-tambahtiket1');
   }, [navigate]);
 
   const onNavItemContainer5Click = useCallback(() => {
-    navigate("/admin-datatransfer1");
+    navigate('/admin-datatransfer1');
   }, [navigate]);
 
   useEffect(() => {
-    const scrollAnimElements = document.querySelectorAll(
-      "[data-animate-on-scroll]"
-    );
+    const scrollAnimElements = document.querySelectorAll('[data-animate-on-scroll]');
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
             const targetElement = entry.target;
-            targetElement.classList.add("animate");
+            targetElement.classList.add('animate');
             observer.unobserve(targetElement);
           }
         }
@@ -61,11 +59,7 @@ const SidebarAdminTambahTiket = ({ onClose }) => {
         <div className="brand-nav-list1">
           <div className="nav-brand1">
             <div className="logo-web1">
-              <img
-                className="logo-web-icon2"
-                alt=""
-                src="../logo-web2@2x.png"
-              />
+              <img className="logo-web-icon2" alt="" src="../logo-web2@2x.png" />
             </div>
           </div>
           <div className="nav-list2">
@@ -92,11 +86,7 @@ const SidebarAdminTambahTiket = ({ onClose }) => {
             <div className="nav-item18" onClick={onNavItemContainer2Click}>
               <div className="leading-icon-nav-link16">
                 <div className="leading-icon16">
-                  <img
-                    className="home-icon2"
-                    alt=""
-                    src="../edit-square1.svg"
-                  />
+                  <img className="home-icon2" alt="" src="../edit-square1.svg" />
                 </div>
                 <div className="nav-link14">
                   <div className="dashboard10">Posts</div>
@@ -123,11 +113,7 @@ const SidebarAdminTambahTiket = ({ onClose }) => {
             <div className="nav-item17" onClick={onNavItemContainer5Click}>
               <div className="leading-icon-nav-link16">
                 <div className="leading-icon16">
-                  <img
-                    className="home-icon2"
-                    alt=""
-                    src="../chat--notification1.svg"
-                  />
+                  <img className="home-icon2" alt="" src="../chat--notification1.svg" />
                 </div>
                 <div className="nav-link14">
                   <div className="dashboard8">Comments</div>
@@ -160,11 +146,7 @@ const SidebarAdminTambahTiket = ({ onClose }) => {
                 </div>
               </div>
               <div className="badge1">
-                <img
-                  className="arrow-right-21"
-                  alt=""
-                  src="../arrow--right-21.svg"
-                />
+                <img className="arrow-right-21" alt="" src="../arrow--right-21.svg" />
               </div>
             </div>
           </div>

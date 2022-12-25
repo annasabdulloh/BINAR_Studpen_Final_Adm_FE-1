@@ -1,7 +1,35 @@
-import "./AdminDataTransfer.css";
+import { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import './AdminDataTransfer.css';
 
-const AdminDataTransfer = () => {
+const testing = () => {
+  const [users, Transactions] = useState(null);
 
+  const AdminDataTransfer = () => {
+    try {
+      const url = `${process.env.REACT_APP_API_SERVER_URL}`;
+      const response = fetch(`${url}/api/v1/admin-transactions`, {
+        method: 'GET',
+        headers: {
+          'x-access-token': localStorage.getItem('x-access-token'),
+        },
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          console.log(data);
+          Transactions(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      setErrMsg(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    AdminDataTransfer();
+  }, []);
   return (
     <>
       <div>
@@ -21,78 +49,53 @@ const AdminDataTransfer = () => {
             </div>
           </div>
           <div className="frame-div161">
-            
-            <div className="frame-div198">
-              <div className="frame-div199">
-                <div className="group-div24">
-                  <img
-                    className="ellipse-icon4"
-                    alt=""
-                    src="../ellipse-192.svg"
-                  />
-                  <div className="div14">1</div>
-                </div>
-                <div className="frame-div200">
-                  <div className="frame-div201">
-                    <div className="frame-div202">
-                      <div className="title6" style={{fontSize: "12pt"}}>Title</div>
-                      <div className="testi9" style={{fontSize: "12pt"}}>Testi</div>
-                    </div>
-                    <div className="frame-div203">
-                      <div className="nama-user7" style={{fontSize: "12pt"}}>Nama User</div>
-                      <div className="testi10" style={{fontSize: "12pt"}}>Testi</div>
-                    </div>
-                    <div className="frame-div204">
-                      <div className="email-user6" style={{fontSize: "12pt"}}>Email User</div>
-                      <div className="testgmailcom4" style={{fontSize: "12pt"}}>test@gmail.com</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="daftar-user6">
-                <div className="frame-div205">
-                  <div className="frame-div206">
-                    <div className="frame-div207">
-                      <div className="frame-div208">
-                        <div className="frame-div209">
-                          <div className="dari9" style={{fontSize: "12pt"}}>Dari :</div>
-                          <div className="dari9" style={{fontSize: "12pt"}}>Tujuan :</div>
-                          <div className="dari9" style={{fontSize: "12pt"}}>Harga Tiket Pesawat :</div>
-                          <div className="dibayar-pada-tanggal2" style={{fontSize: "12pt"}}>
-                            Dibayar Pada Tanggal :
-                          </div>
-                        </div>
-                        <div className="frame-div210">
-                          <div className="jakarta9" style={{fontSize: "12pt"}}>Jakarta</div>
-                          <div className="bali9" style={{fontSize: "12pt"}}>Bali</div>
-                          <div className="nama-user7" style={{fontSize: "12pt"}}>Rp. 2.500.000</div>
-                          <div className="div15" style={{fontSize: "12pt"}}>23/11/2022</div>
-                        </div>
+            {/*  */}
+            {users !== null ? console.log(users.transaction) : console.log('Data User masih kosong')}
+            {users === null
+              ? 'Data masih kosong'
+              : users.transaction.map((dataforecast, carts) => (
+                  <div className="transaksi  mt-4 pt-5">
+                    <div className="container-fluid text-center border border-1">
+                      <div className="row fw-bold ">
+                        <div className="col fs-3">username </div>
+                        <div className="col fs-3">Nama User</div>
+                        <div className="col fs-3">Email</div>
+                      </div>
+                      <div className="row mt-2">
+                        <div className="col fs-4 text-uppercase">{dataforecast.user.username}</div>
+                        <div className="col fs-5">{dataforecast.user.f_name + ' ' + dataforecast.user.l_name}</div>
+                        <div className="col fs-5">{dataforecast.user.email}</div>
+                      </div>
+                      <hr />
+
+                      <div className="row mt-5 ">
+                        <div className="col fs-4 fw-bold">Dari : </div>
+                        <div className="col fs-5 ">{dataforecast.from}</div>
+                        <div className="col fs-5"></div>
+                      </div>
+                      <div className="row mt-5 ">
+                        <div className="col fs-4 fw-bold">Tujuan : </div>
+                        <div className="col fs-5 ">{dataforecast.dest}</div>
+                        <div className="col fs-5"></div>
+                      </div>
+                      <div className="row mt-5 ">
+                        <div className="col fs-4 fw-bold">Harga Tiket : </div>
+                        <div className="col fs-5 fw-bold">{dataforecast.price}</div>
+                        <div className="col fs-5"></div>
+                      </div>
+                      <div className="row mt-5 pb-5">
+                        <div className="col fs-4 fw-bold">Status : </div>
+                        <div className="col fs-5 fw-bold text-uppercase">{dataforecast.status}</div>
+                        <div className="col fs-5"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="frame-div211">
-                    <div className="frame-div212">
-                      <div className="frame-div175">
-                        <img
-                          className="logo-web-icon14"
-                          alt=""
-                          src="../logo-web10@2x.png"
-                        />
-                      </div>
-                      <i className="boarding-pass7">BOARDING PASS</i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+                ))}
           </div>
         </div>
       </div>
-
     </>
   );
 };
 
-export default AdminDataTransfer;
+export default testing;
