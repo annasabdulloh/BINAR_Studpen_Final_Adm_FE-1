@@ -95,12 +95,12 @@ return (
           <p>From: {ticket.from}</p>
           <p>Destination: {ticket.dest}</p>
           <p>Date: {ticket.date_air}</p>
-          <p>Price: {ticket.price}</p>
+          <p>Harga Tiket: {ticket.price}</p>
           <p>Number of chairs: {ticket.no_chair}</p>
           <p>Type: {ticket.type}</p>
           <p>Trip type: {ticket.trip_type}</p>
           <p>Deleted: {ticket.deleted ? 'Yes' : 'No'}</p>
-          <p>Logo: {ticket.logo}</p>
+          {/* <img>Logo: {ticket.logo}</img> */}
           <p>Flight number: {ticket.flight_number}</p>
           <p>Kelas: {ticket.kelas}</p>
           <p>Estimated up destination: {ticket.estimated_up_dest}</p>
