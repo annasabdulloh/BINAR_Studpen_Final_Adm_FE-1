@@ -9,11 +9,14 @@ import AdminTiketTerjual from "./pages/AdminTiketTerjual";
 import AdminTambahTiket from "./pages/AdminTambahTiket";
 import AdminDataTransfer from "./pages/AdminDataTransfer";
 import AdminTiketTersedia from "./pages/AdminTiketTersedia";
+import TiketTersedia from "./pages/TiketTersedia";
+import TiketTerjual from "./pages/TiketTerjual";
 import { useEffect } from "react";
 import MainFrame from "./components/MainFrame";
 import UserContent from "./pages/UserContent";
 import Login from './pages/Login'
 import { ProtectedRoute } from "./components/Protected";
+
 
 function App() {
   const action = useNavigationType();
@@ -52,6 +55,14 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/ii":
+        title = "";
+        metaDescription = "";
+        break; 
+      case "/i":
+        title = "";
+        metaDescription = "";
+        break; 
     }
 
     if (title) {
@@ -72,6 +83,8 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login/>} />
       <Route path="/" element={<ProtectedRoute><MainFrame ><UserContent/></MainFrame></ProtectedRoute>} />
+      <Route path="/i" element={<ProtectedRoute><MainFrame ><TiketTerjual/></MainFrame></ProtectedRoute>} />
+      <Route path="/ii" element={<ProtectedRoute><MainFrame ><TiketTersedia/></MainFrame></ProtectedRoute>} />
 
       <Route path="/admin-tiketterjual" element={<ProtectedRoute><MainFrame ><AdminTiketTerjual/></MainFrame></ProtectedRoute>} />
 

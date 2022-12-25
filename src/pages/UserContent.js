@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect} from "react";
 import "antd/dist/antd.min.css";
 import { Button } from "antd";
 import {
@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 import PortalPopup from "../components/PortalPopup";
 import Popup from "../components/Popup";
 import DetailUser from "../components/DetailUser";
+import axios from "axios";
 // import "./AdminDaftarUser1.css";
-
+let user = []
 const UserContent = () => {
   const [isSidebarAdminDaftarUserOpen, setSidebarAdminDaftarUserOpen] =
     useState(false);
@@ -34,10 +35,80 @@ const UserContent = () => {
     setPopupOpen(false);
   }, []);
 
-  return (
-    <>
+  const url = `${process.env.REACT_APP_API_SERVER_URL}`;
+  const [paramShow, setParamShow] = useState(false);
+    useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(`${url}/api/v1/users`, {
+        headers: {
+          'x-access-token': localStorage.getItem('x-access-token')
+        }
+      });
+      console.log(result);
+      user = result.data;
 
+      setParamShow(true);
+    };
 
+    fetchData();
+  }, []);
+
+return (
+  <>
+   <div>
+    <h1>User Details</h1>
+    
+    {paramShow ? (
+     <>
+      <ul>
+        {console.log(user)}
+        {user.users.map(user => {
+            return(
+            <li key={user.id}>{user.username}</li>
+            )
+        })}
+      </ul> 
+
+      <ul>
+        {console.log(user)}
+        {user.users.map(user => {
+            return(
+            <li key={user.id}>{user.email}</li>
+            )
+        })}
+      </ul> 
+
+      <ul>
+        {console.log(user)}
+        {user.users.map(user => {
+            return(
+            <li key={user.id}>{user.password}</li>
+            )
+        })}
+      </ul> 
+
+      <ul>
+        {console.log(user)}
+        {user.users.map(user => {
+            return(
+            // <img key={user.id}>{user.photo}></img>
+            <li key={user.id}>{user.photo}</li>
+            )
+        })}
+      </ul> 
+
+      <ul>
+        {console.log(user)}
+        {user.users.map(user => {
+            return(
+            <li key={user.id}>{user.f_name}</li>
+            )
+        })}
+      </ul> 
+      </>
+    ): (<div>tes</div>)}
+  </div>
+  
       <div className="">
         <div className="title-frame5">
           <div className="daftar-user9">Daftar User</div>
@@ -219,6 +290,7 @@ const UserContent = () => {
 
     </>
   );
+  
 };
 
 export default UserContent;
