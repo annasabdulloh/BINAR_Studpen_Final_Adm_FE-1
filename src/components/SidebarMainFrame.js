@@ -1,8 +1,11 @@
+import React from 'react'
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SidebarMainFrame.css";
+import PropTypes from 'prop-types'
 
 const SidebarAdminDaftarUser = ({ onClose }) => {
+  console.log(onClose)
   const navigate = useNavigate();
 
   const onNavItemContainer1Click = useCallback(() => {
@@ -143,7 +146,7 @@ const SidebarAdminDaftarUser = ({ onClose }) => {
             </div> */}
           </div>
         </div>
-        <div className="logout-toogle10">
+        <a href='/logout' className="logout-toogle10">
           <div className="nav-item87">
             <div className="leading-icon-nav-link80">
               <div className="leading-icon80">
@@ -168,10 +171,14 @@ const SidebarAdminDaftarUser = ({ onClose }) => {
               </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );
-};
+}
+
+SidebarAdminDaftarUser.propTypes = {
+  onClose: PropTypes.node.isRequired
+}
 
 export default SidebarAdminDaftarUser;

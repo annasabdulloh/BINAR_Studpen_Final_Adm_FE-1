@@ -1,5 +1,6 @@
+import React from 'react'
 import { useMemo, useCallback, useState, useRef, useEffect } from "react";
-
+import PropTypes from 'prop-types'
 import { createPortal } from "react-dom";
 import "./PortalPopup.css";
 
@@ -20,6 +21,7 @@ const PortalPopup = ({
   const popupStyle = useMemo(() => {
     const style = {};
     style.zIndex = zIndex;
+    style.overflow = "scroll"
 
     if (overlayColor) {
       style.backgroundColor = overlayColor;
@@ -92,6 +94,7 @@ const PortalPopup = ({
     } else {
       style.maxWidth = "90%";
       style.maxHeight = "90%";
+      style.width = "50%"
       setRelativeStyle(style);
     }
   }, [
@@ -150,5 +153,19 @@ export const Portal = ({ children, containerId = "portals" }) => {
   }
 
   return createPortal(children, portalsDiv);
-};
+}
+
+PortalPopup.propTypes = {
+  children: PropTypes.node.isRequired,
+  overlayColor: PropTypes.node.isRequired,
+  placement: PropTypes.node.isRequired,
+  onOutsideClick: PropTypes.node.isRequired,
+  zIndex: PropTypes.node.isRequired,
+  left: PropTypes.node.isRequired,
+  right: PropTypes.node.isRequired,
+  top: PropTypes.node.isRequired,
+  bottom: PropTypes.node.isRequired,
+  relativeLayerRef: PropTypes.node.isRequired,
+}
+
 export default PortalPopup;

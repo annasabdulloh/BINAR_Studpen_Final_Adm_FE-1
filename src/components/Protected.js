@@ -32,9 +32,8 @@ const destroyToken = (token) => {
     }
 }
 
-let loopRender = 0;
 
-function ProtectedRoute({ children, active = true }) {
+function ProtectedRoute({ children }) {
 
     const [navigate, setNav] = useState(null);
 
@@ -79,15 +78,14 @@ function ProtectedRoute({ children, active = true }) {
     console.log(navigate);
     return (
         navigate === null ? <Loading></Loading> : (
-            navigate === '' ? children : (active ? <Navigate to={navigate} /> : children)
+            navigate === '' ? children : <Navigate to={navigate} />
         )
     )
 
 }
 
 ProtectedRoute.propTypes = {
-    children: PropTypes.node.isRequired,
-    // active: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
 }
 
 export { ProtectedRoute };

@@ -1,296 +1,224 @@
-import { useState, useCallback, useEffect} from "react";
+import React from 'react'
+import { useState, useEffect } from "react";
 import "antd/dist/antd.min.css";
 import { Button } from "antd";
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import PortalPopup from "../components/PortalPopup";
 import Popup from "../components/Popup";
 import DetailUser from "../components/DetailUser";
 import axios from "axios";
+import Loading from './Loading';
 // import "./AdminDaftarUser1.css";
-let user = []
 const UserContent = () => {
-  const [isSidebarAdminDaftarUserOpen, setSidebarAdminDaftarUserOpen] =
-    useState(false);
-  const navigate = useNavigate();
-  const [isDetailUserPopupOpen, setDetailUser1PopupOpen] = useState(false);
-  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isDetailUserPopupOpen, setDetailUser1PopupOpen] = useState(null);
+  const [isPopupOpen, setPopupOpen] = useState(null);
+  const [msg, setMsg] = useState(null)
 
-  const openDetailUserPopup = useCallback(() => {
-    setDetailUser1PopupOpen(true);
-  }, []);
+  const openDetailUserPopup = (data) => {
+    setDetailUser1PopupOpen(data);
+  };
 
-  const closeDetailUserPopup = useCallback(() => {
-    setDetailUser1PopupOpen(false);
-  }, []);
+  const closeDetailUserPopup = () => {
+    setDetailUser1PopupOpen(null)
+  }
 
-  const openPopup = useCallback(() => {
-    setPopupOpen(true);
-  }, []);
+  const openPopup = (data) => {
+    let args = {
+      setMsg
+    }
+    let url = `${process.env.REACT_APP_API_SERVER_URL}/api/v1/${data.id}/delete-user`
+    args.url = url
+    setPopupOpen(args)
+  }
 
-  const closePopup = useCallback(() => {
-    setPopupOpen(false);
-  }, []);
+  const closePopup = () => {
+    setPopupOpen(null);
+  }
 
   const url = `${process.env.REACT_APP_API_SERVER_URL}`;
-  const [paramShow, setParamShow] = useState(false);
-    useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get(`${url}/api/v1/users`, {
-        headers: {
-          'x-access-token': localStorage.getItem('x-access-token')
-        }
-      });
-      console.log(result);
-      user = result.data;
+  const [loading, setLoading] = useState(false);
+  const [user, setUsers] = useState(null)
+  const [counter, setCounter] = useState(0)
 
-      setParamShow(true);
-    };
+  const fetchData = async () => {
+    const result = await axios.get(`${url}/api/v1/users`, {
+      headers: {
+        'x-access-token': localStorage.getItem('x-access-token')
+      }
+    });
+    return result.data
+  };
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (counter == 0) {
+      setLoading(true)
+      fetchData().then((res) => {
+        setUsers(res.users)
+        setCounter(counter + 1)
+        setLoading(false);
+      }).catch(() => {
+        setUsers([])
+        setCounter(counter + 1)
+        setLoading(false);
+      })
+    }
+  }, [user]);
 
-return (
-  <>
-   <div>
-    <h1>User Details</h1>
-    
-    {paramShow ? (
-     <>
-      <ul>
-        {console.log(user)}
-        {user.users.map(user => {
-            return(
-            <li key={user.id}>{user.username}</li>
-            )
-        })}
-      </ul> 
-
-      <ul>
-        {console.log(user)}
-        {user.users.map(user => {
-            return(
-            <li key={user.id}>{user.email}</li>
-            )
-        })}
-      </ul> 
-
-      <ul>
-        {console.log(user)}
-        {user.users.map(user => {
-            return(
-            <li key={user.id}>{user.password}</li>
-            )
-        })}
-      </ul> 
-
-      <ul>
-        {console.log(user)}
-        {user.users.map(user => {
-            return(
-            // <img key={user.id}>{user.photo}></img>
-            <li key={user.id}>{user.photo}</li>
-            )
-        })}
-      </ul> 
-
-      <ul>
-        {console.log(user)}
-        {user.users.map(user => {
-            return(
-            <li key={user.id}>{user.f_name}</li>
-            )
-        })}
-      </ul> 
-      </>
-    ): (<div>tes</div>)}
-  </div>
-  
+  return (
+    <div className='w-100'>
       <div className="">
         <div className="title-frame5">
           <div className="daftar-user9">Daftar User</div>
           <div className="description5">Daftar User Teregistrasi</div>
-          <div className="frame-div375" style={{fontSize: "12pt"}}>
-            <div className="daftar-user10">
-              <div className="frame-div376">
-                <div className="group-div36">
-                  <img
-                    className="ellipse-icon16"
-                    alt=""
-                    src="../ellipse-19.svg"
-                  />
-                  <div className="div28">1</div>
-                </div>
-                <div className="frame-div377">
-                  <div className="frame-div378">
-                    <div className="frame-div379">
-                      <div className="title8">Title</div>
-                      <div className="testi13">Testi</div>
-                    </div>
-                    <div className="frame-div380">
-                      <div className="tanggal-lahir4">Tanggal Lahir</div>
-                      <div className="div29">22/23/2022</div>
-                    </div>
-                    <div className="frame-div381">
-                      <div className="no-handphone4">No. Handphone</div>
-                      <div className="xxxxxxxxxxxxx2">081xxxxxxxxxxxxx</div>
-                    </div>
-                    <div className="frame-div382">
-                      <div className="username4">Username</div>
-                      <div className="xxxxxxxxxxx4">xxxxxxxxxxx</div>
-                    </div>
-                  </div>
-                  <div className="frame-div383">
-                    <div className="frame-div384">
-                      <div className="nama-user15">Nama User</div>
-                      <div className="testi14">Testi</div>
-                    </div>
-                    <div className="frame-div385">
-                      <div className="kebangsaan4">Kebangsaan</div>
-                      <div className="indonesia4">Indonesia</div>
-                    </div>
-                    <div className="frame-div386">
-                      <div className="email-user8">Email User</div>
-                      <div className="testgmailcom6">test@gmail.com</div>
-                    </div>
-                    <div className="frame-div382">
-                      <div className="password4">Password</div>
-                      <div className="xxxxxxxxxxx5">xxxxxxxxxxx</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="frame-div388">
-                  <Button
-                    className="frame-button9"
-                    style={{ width: "121px" }}
-                    type="primary"
-                    icon={<ExclamationCircleOutlined />}
-                    size="middle"
-                    shape="default"
-                    onClick={openDetailUserPopup}
-                  >
-                    Detail
-                  </Button>
-                  <Button
-                    className="frame-button9"
-                    type="primary"
-                    icon={<DeleteOutlined />}
-                    size="middle"
-                    shape="default"
-                    danger
-                    onClick={openPopup}
-                  >
-                    Hapus
-                  </Button>
-                </div>
+
+          <div className='row w-100'>
+            {msg ? (
+              <div className="alert alert-danger" role="alert">
+                {msg}
               </div>
-            </div>
-          </div>
-          <div className="frame-div389" style={{fontSize: "12pt"}}>
-            <div className="daftar-user10">
-              <div className="frame-div376">
-                <div className="group-div36">
-                  <img
-                    className="ellipse-icon16"
-                    alt=""
-                    src="../ellipse-19.svg"
-                  />
-                  <div className="div30">2</div>
-                </div>
-                <div className="frame-div377">
-                  <div className="frame-div378">
-                    <div className="frame-div379">
-                      <div className="title8">Title</div>
-                      <div className="testi13">Testi2</div>
+
+            ) : ('')}
+            {loading === false ? (
+              user === null ? (<div className="text-center"><h5 className='text-center'> Belum Ada User Terdaftar </h5></div>) : (
+                user.map((data, index) => (
+
+                  <div key={index} className="col-12 shadow p-4 rounded-5" style={{ fontSize: "12pt" }}>
+
+                    <div className="row">
+                      <div className="col-md-10">
+                        <div className='row'>
+                          <div className="col-12">
+                            <div className="row">
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>Nama Depan</div>
+                                <div className="testi13" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.f_name}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>Username</div>
+                                <div className="div29" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.username}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>G_ID</div>
+                                <div className="xxxxxxxxxxxxx2" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.g_id}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>ID User</div>
+                                <div className="xxxxxxxxxxx4" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.id}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className='col-12'>
+                            <div className='row'>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>Nama Belakang</div>
+                                <div className="testi14" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.l_name}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>E-Mail</div>
+                                <div className="indonesia4" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.email}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>Visa ID</div>
+                                <div className="testgmailcom6" style={{ overflowWrap: "anywhere", width: "100%" }}>{data.visa_ID}</div>
+                              </div>
+                              <div className="col-md-3">
+                                <div className="fw-bold mb-1" style={{ color: "black" }}>Photo</div>
+                                <div className="xxxxxxxxxxx5">
+                                  <img width={"60px"} height={"60px"} className="rounded-circle" src={`${process.env.REACT_APP_API_SERVER_URL}${data.photo}`}></img>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-2">
+                        <div className='row'>
+                          <div className='col-12'>
+                            <Button
+                              className="btn btn-primary mt-3 w-100"
+                              type="primary"
+                              icon={<ExclamationCircleOutlined />}
+                              size="middle"
+                              shape="default"
+                              onClick={() => {
+                                openDetailUserPopup(data)
+                              }}
+                            >
+                              Detail
+                            </Button>
+                          </div>
+                          <div className='col-12'>
+                            <Button
+                              className="btn btn-danger mt-3 w-100"
+                              type="primary"
+                              icon={<DeleteOutlined />}
+                              size="middle"
+                              shape="default"
+                              danger
+                              onClick={() => {
+                                openPopup(data)
+                              }}
+                            >
+                              Hapus
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="frame-div380">
-                      <div className="tanggal-lahir4">Tanggal Lahir</div>
-                      <div className="div29">22/23/2022</div>
-                    </div>
-                    <div className="frame-div381">
-                      <div className="no-handphone4">No. Handphone</div>
-                      <div className="xxxxxxxxxxxxx2">081xxxxxxxxxxxxx</div>
-                    </div>
-                    <div className="frame-div382">
-                      <div className="username4">Username</div>
-                      <div className="xxxxxxxxxxx4">xxxxxxxxxxx</div>
-                    </div>
+
                   </div>
-                  <div className="frame-div383">
-                    <div className="frame-div384">
-                      <div className="nama-user15">Nama User</div>
-                      <div className="testi14">Testi2</div>
-                    </div>
-                    <div className="frame-div385">
-                      <div className="kebangsaan4">Kebangsaan</div>
-                      <div className="indonesia4">Indonesia</div>
-                    </div>
-                    <div className="frame-div386">
-                      <div className="email-user8">Email User</div>
-                      <div className="testgmailcom6">test2@gmail.com</div>
-                    </div>
-                    <div className="frame-div382">
-                      <div className="password4">Password</div>
-                      <div className="xxxxxxxxxxx5">xxxxxxxxxxx</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="frame-div388">
-                  <Button
-                    className="frame-button9"
-                    style={{ width: "121px" }}
-                    type="primary"
-                    icon={<ExclamationCircleOutlined />}
-                    size="middle"
-                    shape="default"
-                    onClick={openDetailUserPopup}
-                  >
-                    Detail
-                  </Button>
-                  <Button
-                    className="frame-button9"
-                    type="primary"
-                    icon={<DeleteOutlined />}
-                    size="middle"
-                    shape="default"
-                    danger
-                    onClick={openPopup}
-                  >
-                    Hapus
-                  </Button>
-                </div>
+                ))
+              )
+            ) : (
+              <div className='col-12 text-center'>
+                <Loading className="col-12"></Loading>
               </div>
-            </div>
+            )}
           </div>
+
+
         </div>
       </div>
 
 
-      {isDetailUserPopupOpen && (
+      {isDetailUserPopupOpen !== null ? (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
           onOutsideClick={closeDetailUserPopup}
+          zIndex={100}
+          left={0}
+          right={0}
+          top={0}
+          bottom={0}
         >
-          <DetailUser onClose={closeDetailUserPopup} />
+          <DetailUser onClose={closeDetailUserPopup} data={isDetailUserPopupOpen} />
         </PortalPopup>
-      )}
-      {isPopupOpen && (
+      ) : ('')}
+
+      {isPopupOpen !== null ? (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
           onOutsideClick={closePopup}
+          zIndex={100}
+          left={0}
+          right={0}
+          top={0}
+          bottom={0}
         >
-          <Popup onClose={closePopup} />
+          <Popup onClose={closePopup} url={isPopupOpen.url} callbackSetErr={isPopupOpen.setMsg} callbackLoading={setLoading} />
         </PortalPopup>
-      )}
+      ) : ('')}
 
-    </>
-  );
-  
+    </div>
+  )
+
 };
 
 export default UserContent;

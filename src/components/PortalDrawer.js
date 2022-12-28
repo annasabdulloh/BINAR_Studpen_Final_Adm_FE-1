@@ -1,5 +1,6 @@
+import React from 'react';
 import { useMemo, useCallback } from "react";
-
+import PropTypes from 'prop-types'
 import { createPortal } from "react-dom";
 import "./PortalDrawer.css";
 
@@ -58,7 +59,15 @@ const PortalDrawer = ({
       </div>
     </DrawerContainer>
   );
-};
+}
+
+PortalDrawer.propTypes = {
+  children: PropTypes.node.isRequired,
+  overlayColor: PropTypes.node.isRequired,
+  placement: PropTypes.node.isRequired,
+  onOutsideClick: PropTypes.node.isRequired,
+  zIndex: PropTypes.node.isRequired
+}
 
 export const DrawerContainer = ({ children, containerId = "portals" }) => {
   let portalsDiv = document.getElementById(containerId);
@@ -69,5 +78,5 @@ export const DrawerContainer = ({ children, containerId = "portals" }) => {
   }
 
   return createPortal(children, portalsDiv);
-};
+}
 export default PortalDrawer;

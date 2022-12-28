@@ -1,7 +1,7 @@
-import { TextField, Button } from '@mui/material';
+// import { TextField, Button } from '@mui/material';
 import './AdminTambahTiket.css';
-import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import Loading from './Loading';
 
 const AdminTambahTiket = () => {
   const formData = new FormData();
@@ -17,6 +17,7 @@ const AdminTambahTiket = () => {
   const kelas = useRef(null);
   const photo = useRef(null);
   const [errMsg, setErrMsg] = useState(null);
+  const [scMsg, setScMsg] = useState(null)
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
@@ -51,7 +52,7 @@ const AdminTambahTiket = () => {
 
     try {
       const url = `${process.env.REACT_APP_API_SERVER_URL}`;
-      const response = fetch(`${url}/api/v1/ticket`, {
+      fetch(`${url}/api/v1/ticket`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -60,132 +61,84 @@ const AdminTambahTiket = () => {
         },
       })
         .then((response) => {
-          response.json().then((result) => {
-            console.log(result);
-          });
-          console.log(response);
+          if (response.status == 200) {
+            document.getElementById('form-add').reset()
+            setScMsg("Data berhasil ditambahkan. Silahkan cek dihalaman ticket tersedia")
+            setLoading(false)
+            setTimeout(() => {
+              setScMsg(null)
+            }, 10000)
+          } else {
+            response.json().then((result) => {
+              console.log(result);
+              setErrMsg(result.errors);
+              setLoading(false);
+              setTimeout(() => {
+                setErrMsg(null)
+              }, 10000)
+            });
+          }
         })
         .catch((error) => {
           console.log(error);
+          setErrMsg("Data gagal dibuat. Server ERROR :(");
+          setLoading(false);
+          setTimeout(() => {
+            setErrMsg(null)
+          }, 10000)
         });
     } catch (error) {
       setErrMsg(error);
       setLoading(false);
+      setTimeout(() => {
+        setErrMsg(null)
+      }, 10000)
     }
   };
 
   return (
     <>
-      <div>
-        <div className="title-frame3">
-          <div className="frame-div233">
+      <div className='w-100'>
+        <div className="">
+          {/* <div className="frame-div233">
             <div className="frame-div234">
               <div className="frame-div235">
-                <div className="frame-div236">
-                  <div className="frame-div237">
-                    <div className="tambah-tiket4">Tambah Tiket</div>
-                  </div>
-                  <div className="frame-div238">
-                    <div className="description3">Form Tambah Tiket</div>
-                  </div>
-                </div>
+                
               </div>
             </div>
-          </div>
-          <div className="frame-div239">
-            <div className="frame-div240">
-              <div className="frame-div241">
-                <TextField className="group-textfield2" sx={{ width: 335 }} color="info" variant="outlined" type="search" label="Cari sesuatu" placeholder="Cari Sesuatu" size="medium" margin="none" />
-              </div>
-            </div>
-            <div className="frame-div242">
-              <TextField className="group-textfield2" sx={{ width: 354 }} color="info" variant="outlined" type="search" label="Cari sesuatu" placeholder="Cari Sesuatu" size="medium" margin="none" />
-            </div>
-            <div className="frame-div243">
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Nama Pesawat</div>
-                  </div>
-                </div>
-                {/*  */}
-              </div>
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Dari</div>
-                  </div>
-                </div>
-                <TextField className="frame-textfield" fullWidth color="primary" variant="outlined" type="text" label="Dari" placeholder="Dari" size="medium" margin="none" required />
-              </div>
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Tujuan</div>
-                  </div>
-                </div>
-                <TextField className="frame-textfield" fullWidth color="primary" variant="outlined" type="text" label="Tujuan" placeholder="Tujuan" size="medium" margin="none" required />
-              </div>
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Nomor Penerbangan</div>
-                  </div>
-                </div>
-                <TextField className="frame-textfield" fullWidth color="primary" variant="outlined" type="text" label="Nomor Penerbangan" placeholder="Nomor Penerbangan" size="medium" margin="none" required />
-              </div>
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Nomor Tiket</div>
-                  </div>
-                </div>
-                <TextField className="frame-textfield" fullWidth color="primary" variant="outlined" type="text" label="Nomor Tiket" placeholder="Nomor Tiket" size="medium" margin="none" required />
-              </div>
-              <div className="frame-div244">
-                <div className="frame-div245">
-                  <div className="frame-div246">
-                    <div className="kelas-pesawat">Harga</div>
-                  </div>
-                </div>
-                <TextField className="frame-textfield" fullWidth color="primary" variant="outlined" type="text" label="Harga" placeholder="Harga" size="medium" margin="none" required />
-              </div>
-              <div className="frame-div265">
-                <Button sx={{ width: 297 }} variant="contained" color="error">
-                  Tambahkan tiket
-                </Button>
-              </div>
-            </div>
+          </div> */}
+          <div className="text-start text-dark">
             <div
-              className="frame-div266"
               style={{
                 fontSize: '12pt',
                 borderRadius: '8px',
                 border: 'opx',
               }}
             >
-              <div
-                className="frame-div267"
-                style={{
-                  fontSize: '12pt',
-                  borderRadius: '8px',
-                  border: 'opx',
-                }}
-              >
-                <div className="cari-tiket">Tambah Tiket</div>
+              <div className="">
+                <div className="frame-div238 mb-3 p-2">
+                  <div className="description3">Form Tambah Tiket</div>
+                </div>
               </div>
-              <div className="text-start">
-                <div
-                  style={{
-                    fontSize: '12pt',
-                    borderRadius: '8px',
-                    border: 'opx',
-                  }}
-                >
-                  <form className="row g-3 p-3" onSubmit={onSubmit}>
+
+              <form id='form-add' className="g-3 p-3" onSubmit={onSubmit}>
+                {loading ? (<Loading></Loading>) : (
+                  <div className='row'>
+                    <div className='col-12'>
+                      {scMsg ? (
+                        <div className="alert alert-success" >
+                          {scMsg}
+                        </div>
+                      ) : ('')}
+                      {errMsg ? (
+                        <div className="alert alert-danger" >
+                          {errMsg}
+                        </div>
+                      ) : ('')}
+                    </div>
                     <div className="col-12">
                       <label htmlFor="inputNamaPengguna" className="form-label">
-                        Nama Pesawat
+                        Nama Pesawat / Maskapai
                       </label>
                       <input ref={airline} type="text" className="form-control" id="inputNama" placeholder="" />
                     </div>
@@ -193,17 +146,17 @@ const AdminTambahTiket = () => {
                       <label htmlFor="inputNomerpenerbangan" className="form-label">
                         Nomer Penerbangan
                       </label>
-                      <input ref={flightNumber} type="text" className="form-control" id="inputNomerpenerbangan" placeholder="" />
+                      <input ref={flightNumber} type="number" className="form-control" id="inputNomerpenerbangan" placeholder="" />
                     </div>
                     <div className="col-md-6">
                       <label htmlFor="inputdari" className="form-label">
-                        dari
+                        Dari
                       </label>
                       <input ref={from_city} type="text" className="form-control" id="inputdari" placeholder="" />
                     </div>
                     <div className="col-md-6">
                       <label htmlFor="inputdestinasi" className="form-label">
-                        destinasi
+                        Destinasi
                       </label>
                       <input ref={destination} type="text" className="form-control" id="inputdestinasi" placeholder="" />
                     </div>
@@ -227,7 +180,7 @@ const AdminTambahTiket = () => {
                     </div>
                     <div className="col-md-6">
                       <label htmlFor="inputkursi" className="form-label">
-                        No_chair
+                        Jumlah Kursi
                       </label>
                       <input ref={no_chair} type="text" className="form-control" id="inputkursi" placeholder="" />
                     </div>
@@ -236,14 +189,14 @@ const AdminTambahTiket = () => {
                       <input ref={photo} type="file" className="form-control" id="photo" placeholder="" />
                     </div>
                     <div className="col-md-6">
-                      <label htmlFor="kelas">kelas</label>
+                      <label htmlFor="kelas">Kelas</label>
                       <select ref={kelas} name="" id="kelas" className="form-select-sm form-select" required defaultValue="">
                         <option value="1">Ekonomi</option>
                         <option value="2">Bisnis</option>
                       </select>
                     </div>
                     <div className="col-md-6">
-                      <label htmlFor="type_ticket">kategori Penumpang</label>
+                      <label htmlFor="type_ticket">Kategori Penumpang</label>
                       <select ref={type_ticket} name="" id="type_ticket" className="form-select-sm form-select" required defaultValue="">
                         <option value="1">Dewasa</option>
                         <option value="2">Anak-Anak</option>
@@ -254,9 +207,9 @@ const AdminTambahTiket = () => {
                         <input type="submit" value={'Simpan'} className="btn btn-primary col-md-12" />
                       </div>
                     </div>
-                  </form>
-                </div>
-              </div>
+                  </div>
+                )}
+              </form>
             </div>
           </div>
         </div>

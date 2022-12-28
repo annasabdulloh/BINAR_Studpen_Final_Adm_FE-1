@@ -1,14 +1,33 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
 import './AdminDataTransfer.css';
+import Loading from './Loading';
+import PortalPopup from "../components/PortalPopup";
+import DetailTrx from '../components/DetailTrx';
 
-const testing = () => {
+const DataTransfer = () => {
   const [users, Transactions] = useState(null);
+  const [loading, setLoading] = useState(false)
+
+  // ======================================== Kontrol Pop Up ==================================================
+
+  const [isDetailTrxOpen, setDetailOpen] = useState(null)
+
+  const openDetailTicketPopup = (data) => {
+    setDetailOpen(data);
+  };
+
+  const closeDetailTicketPopup = () => {
+    setDetailOpen(null)
+  }
+
+  // ==========================================================================================================
 
   const AdminDataTransfer = () => {
+    setLoading(true)
     try {
       const url = `${process.env.REACT_APP_API_SERVER_URL}`;
-      const response = fetch(`${url}/api/v1/admin-transactions`, {
+      fetch(`${url}/api/v1/admin-transactions`, {
         method: 'GET',
         headers: {
           'x-access-token': localStorage.getItem('x-access-token'),
@@ -17,13 +36,18 @@ const testing = () => {
         .then(async (response) => {
           const data = await response.json();
           console.log(data);
-          Transactions(data);
+          if(response.status == 200){
+            Transactions(data);
+            setLoading(false)
+          }else{
+            setLoading(false)
+          }
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false)
         });
     } catch (error) {
-      setErrMsg(error);
       setLoading(false);
     }
   };
@@ -32,70 +56,76 @@ const testing = () => {
   }, []);
   return (
     <>
-      <div>
-        <div className="title-frame2">
-          <div className="frame-div155">
-            <div className="frame-div156">
-              <div className="frame-div157">
-                <div className="frame-div158">
-                  <div className="frame-div159">
-                    <div className="tiket-terjual3">Pembayaran</div>
-                  </div>
-                  <div className="frame-div160">
-                    <div className="description2">Daftar Pembayaran User</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div className='w-100'>
+        <div className="">
+          <div className="frame-div160">
+            <div className="description2">Daftar Pembayaran User</div>
           </div>
-          <div className="frame-div161">
+          <div className="text-dark p-4">
             {/*  */}
-            {users !== null ? console.log(users.transaction) : console.log('Data User masih kosong')}
-            {users === null
-              ? 'Data masih kosong'
-              : users.transaction.map((dataforecast, carts) => (
-                  <div className="transaksi  mt-4 pt-5">
-                    <div className="container-fluid text-center border border-1">
-                      <div className="row fw-bold ">
-                        <div className="col fs-3">username </div>
-                        <div className="col fs-3">Nama User</div>
-                        <div className="col fs-3">Email</div>
-                      </div>
-                      <div className="row mt-2">
-                        <div className="col fs-4 text-uppercase">{dataforecast.user.username}</div>
-                        <div className="col fs-5">{dataforecast.user.f_name + ' ' + dataforecast.user.l_name}</div>
-                        <div className="col fs-5">{dataforecast.user.email}</div>
+            {/* {users !== null ? console.log(users.transaction) : console.log('Data User masih kosong')} */}
+            <div className='row w-100'>
+              {loading ? (<Loading></Loading>) : (
+                users === null ? (<div className='text-center w-100'><h4 className='mt-4'>Data Masih Kosong</h4></div>) : (
+                  users.transaction.map((dataforecast, index) => (
+                    <div key={index} className="col-12 mt-4 mb-3">
+  
+                      <div className="card rounded-4 shadow">
+                        <div className="card-header bg-primary text-white">
+                          <div className="row p-3">
+                            <div className="col-md-4 fs-4 fw-bold mb-3">Username <div className="col fs-5 text-uppercase fw-light">{dataforecast.user.username}</div> </div>
+                            <div className="col-md-4 fs-4 fw-bold mb-3">Nama User <div className="col fs-5 fw-light">{dataforecast.user.f_name + ' ' + dataforecast.user.l_name}</div> </div>
+                            <div className="col-md-4 fs-4 fw-bold mb-3">Email <div className="col fs-5 fw-light">{dataforecast.user.email}</div> </div>
+                          </div>
+                        </div>
+                        <div className="card-body">
+                          <div className="row mt-2 ps-3 pe-3">
+                            <div className="col fw-bold text-primary">Order ID</div>
+                            <div className="col ">{dataforecast.order_id}</div>
+                            <div className="col"></div>
+                          </div>
+                          <div className="row mt-2 ps-3 pe-3">
+                            <div className="col fw-bold text-primary">Harga Tiket </div>
+                            <div className="col ">{dataforecast.price}</div>
+                            <div className="col"></div>
+                          </div>
+                          <div className="row mt-2 ps-3 pe-3">
+                            <div className="col fw-bold text-primary">Status </div>
+                            <div className="col"><button className={`btn text-uppercase ${dataforecast.status == "finished" ? 'btn-success' : (dataforecast.status == 'expired' ? 'btn-danger' : 'btn-warning')}`}>{dataforecast.status}</button></div>
+                            <div className="col"></div>
+                          </div>
+                          <div className="row mt-2 ps-3 pe-3 pb-3">
+                            <div className='col-12 d-flex'>
+                              <button onClick={() => openDetailTicketPopup(dataforecast)} className='btn btn-warning ms-auto'>Lihat Detail</button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <hr />
-
-                      <div className="row mt-5 ">
-                        <div className="col fs-4 fw-bold">Dari : </div>
-                        <div className="col fs-5 ">{dataforecast.from}</div>
-                        <div className="col fs-5"></div>
-                      </div>
-                      <div className="row mt-5 ">
-                        <div className="col fs-4 fw-bold">Tujuan : </div>
-                        <div className="col fs-5 ">{dataforecast.dest}</div>
-                        <div className="col fs-5"></div>
-                      </div>
-                      <div className="row mt-5 ">
-                        <div className="col fs-4 fw-bold">Harga Tiket : </div>
-                        <div className="col fs-5 fw-bold">{dataforecast.price}</div>
-                        <div className="col fs-5"></div>
-                      </div>
-                      <div className="row mt-5 pb-5">
-                        <div className="col fs-4 fw-bold">Status : </div>
-                        <div className="col fs-5 fw-bold text-uppercase">{dataforecast.status}</div>
-                        <div className="col fs-5"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    </div>)
+                  ))
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {isDetailTrxOpen !== null ? (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Centered"
+          onOutsideClick={closeDetailTicketPopup}
+          zIndex={100}
+          left={0}
+          right={0}
+          top={0}
+          bottom={0}
+        >
+          <DetailTrx data={isDetailTrxOpen}></DetailTrx>
+        </PortalPopup>
+      ) : ('')}
     </>
   );
 };
 
-export default testing;
+export default DataTransfer;

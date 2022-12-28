@@ -1,48 +1,16 @@
+import React from 'react';
 import { useState, useCallback } from 'react';
 import 'antd/dist/antd.min.css';
-// import { Button } from "antd";
-// import {
-//   DownOutlined,
-//   ArrowLeftOutlined,
-//   ArrowRightOutlined,
-//   CalendarOutlined,
-//   CheckOutlined,
-//   ClockCircleOutlined,
-//   CloseOutlined,
-//   DeleteOutlined,
-//   EditOutlined,
-//   ExclamationCircleOutlined,
-//   HeartOutlined,
-//   LeftOutlined,
-//   LockOutlined,
-//   MailOutlined,
-//   PaperClipOutlined,
-//   PhoneOutlined,
-//   QuestionCircleOutlined,
-//   ReloadOutlined,
-//   RightOutlined,
-//   SearchOutlined,
-//   SendOutlined,
-//   ShareAltOutlined,
-//   UserOutlined,
-// } from "@ant-design/icons";
+
 import SidebarAdminDaftarUser from './SidebarMainFrame';
 import PortalDrawer from './PortalDrawer';
 import { useNavigate } from 'react-router-dom';
-import DetailUser1 from './DetailUser';
-import PortalPopup from './PortalPopup';
-import Popup from './Popup';
-import DetailUser2 from '../pages/UserContent';
 import './MainFrame.css';
 import PropTypes from 'prop-types';
 
 function MainFrame({ children }) {
   const [isSidebarAdminDaftarUserOpen, setSidebarAdminDaftarUserOpen] = useState(false);
   const navigate = useNavigate();
-  const [isDetailUser1PopupOpen, setDetailUser1PopupOpen] = useState(false);
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const [isDetailUser2PopupOpen, setDetailUser2PopupOpen] = useState(false);
-  const [isPopup1Open, setPopup1Open] = useState(false);
 
   const openSidebarAdminDaftarUser = useCallback(() => {
     setSidebarAdminDaftarUserOpen(true);
@@ -85,37 +53,6 @@ function MainFrame({ children }) {
     }
   }, [navigate]);
 
-  //   const openDetailUser1Popup = useCallback(() => {
-  //     setDetailUser1PopupOpen(true);
-  //   }, []);
-
-  // const closeDetailUser1Popup = useCallback(() => {
-  //   setDetailUser1PopupOpen(false);
-  // }, []);
-
-  //   const openPopup = useCallback(() => {
-  //     setPopupOpen(true);
-  //   }, []);
-
-  // const closePopup = useCallback(() => {
-  //   setPopupOpen(false);
-  // }, []);
-
-  //   const openDetailUser2Popup = useCallback(() => {
-  //     setDetailUser2PopupOpen(true);
-  //   }, []);
-
-  // const closeDetailUser2Popup = useCallback(() => {
-  //   setDetailUser2PopupOpen(false);
-  // }, []);
-
-  //   const openPopup1 = useCallback(() => {
-  //     setPopup1Open(true);
-  //   }, []);
-
-  // const closePopup1 = useCallback(() => {
-  //   setPopup1Open(false);
-  // }, []);
 
   return (
     <>
@@ -134,7 +71,7 @@ function MainFrame({ children }) {
           </div>
           <div className="frame-div374">
             <div className="account-section5">
-              <img className="profile-picture-icon5" alt="" src="../top_avatar1@2x.png" />
+              <img className="profile-picture-icon5" alt="" src={`${process.env.REACT_APP_API_SERVER_URL}/user/avatar_default.png`} />
             </div>
             <div className="seperator5" />
             <button className="profile5">Admin</button>
@@ -214,15 +151,15 @@ function MainFrame({ children }) {
               </div>
             </div> */}
           <div className="logout-toogle9">
-            <div className={'nav-item79' + (window.location.pathname == '/admin-datatransfer1' ? 'active' : '')} onClick={onNavItemContainer6Click}>
+            <div className={'nav-item79 ' + (window.location.pathname == '/admin-datatransfer1' ? 'active' : '')} onClick={onNavItemContainer6Click}>
               <a className="leading-icon-nav-link72">
                 <div className="leading-icon79">
                   <img className="logout-icon9" alt="" src="../logout9.svg" />
                 </div>
                 <div className="leading-icon79">
-                  <div className="dashboard37" style={{ color: 'white' }}>
+                  <a href='/logout' className="dashboard37" style={{ color: 'white' }}>
                     Logout
-                  </div>
+                  </a >
                 </div>
               </a>
             </div>
@@ -236,42 +173,7 @@ function MainFrame({ children }) {
           <SidebarAdminDaftarUser onClose={closeSidebarAdminDaftarUser} />
         </PortalDrawer>
       )}
-      {/* {isDetailUser1PopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Centered"
-          onOutsideClick={closeDetailUser1Popup}
-        >
-          <DetailUser1 onClose={closeDetailUser1Popup} />
-        </PortalPopup>
-      )}
-      {isPopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Centered"
-          onOutsideClick={closePopup}
-        >
-          <Popup onClose={closePopup} />
-        </PortalPopup>
-      )}
-      {isDetailUser2PopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Centered"
-          onOutsideClick={closeDetailUser2Popup}
-        >
-          <DetailUser2 onClose={closeDetailUser2Popup} />
-        </PortalPopup>
-      )}
-      {isPopup1Open && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Centered"
-          onOutsideClick={closePopup1}
-        >
-          <Popup onClose={closePopup1} />
-        </PortalPopup>
-      )} */}
+      
     </>
   );
 }

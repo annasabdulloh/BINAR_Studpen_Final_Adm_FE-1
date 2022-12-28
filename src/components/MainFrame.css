@@ -115,6 +115,10 @@
   flex-direction: column;
   padding: var(--padding-10xs) var(--padding-3xs);
   align-items: flex-start;
+  position: fixed;
+  width: 100%;
+  /* margin-bottom: 100px; */
+  z-index: 1;
 }
 .home-icon9 {
   position: relative;
@@ -272,10 +276,16 @@
 }
 .nav-list9 {
   background-color: var(--color-gray-500);
-  height: 1807px;
+  /* height: 1807px; */
   flex-shrink: 0;
   padding: var(--padding-21xs) 0 0;
   gap: var(--gap-6xs);
+  position: fixed;
+  top: 0;
+  /* z-index: -1; */
+  padding-top: 100px;
+  overflow: scroll;
+  height: 100%;
 }
 .daftar-user9,
 .description5 {
@@ -567,6 +577,8 @@
   font-size: var(--font-size-base);
   color: var(--studio-darkmode-allwhite-ffffff);
   font-family: var(--font-roboto);
+  margin-left: auto;
+  margin-top: 100px;
 }
 .admin-daftar-user1,
 .section5 {
@@ -577,7 +589,7 @@
 }
 .section5 {
   align-self: stretch;
-  height: 1807px;
+  /* height: 1807px; */
   flex-shrink: 0;
   flex-direction: row;
   padding: 0 0 var(--padding-5xl);

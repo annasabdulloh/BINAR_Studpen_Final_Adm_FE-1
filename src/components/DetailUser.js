@@ -1,75 +1,82 @@
+import React from "react";
+import PropTypes from 'prop-types';
 import "./DetailUser.css";
 
-const DetailUser = ({ onClose }) => {
+const DetailUser = ({ onClose, data }) => {
+  console.log(onClose);
   return (
-    <div className="detail-user1" style={{
+    <div className="bg-white" style={{
       padding: "25px",
       borderRadius: "8px",
       fontSize: "11pt"
     }}>
-      <div className="group-div12">
-        <div className="rectangle-div9" />
-        <div className="group-div13">
-          <div className="frame-div39">
-            <div className="title3">Title</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">Testi</div>
-            </div>
+      {console.log(data, "Ini mmasuk detail")}
+      {data === null || data === undefined ? (
+        <form>
+          <div className="mb-3 text-center">
+            <h5>Data Tidak Ada</h5>
           </div>
-          <div className="frame-div40">
-            <div className="title3">Nama User</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">Testi</div>
-            </div>
+        </form>
+      ) : (
+        <form>
+          <div className="mb-3 text-center">
+            <img width={"60px"} height={"60px"} className="rounded-circle" src={`${process.env.REACT_APP_API_SERVER_URL}${data.photo}`}></img>
           </div>
-          <div className="frame-div41">
-            <div className="title3">Username</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">xxxxxxxxxxxxxxx</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">Email address</label>
+            <input type="email" className="form-control" aria-describedby="emailHelp" value={data.email}  readOnly={true}/>
+
           </div>
-          <div className="frame-div42">
-            <div className="title3">Password</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">xxxxxxxxxxxxxxx</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">Username</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={data.username}  readOnly={true}/>
+
           </div>
-          <div className="frame-div43">
-            <div className="title3">Tanggal Lahir</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">22/23/2022</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">Nama Depan</label>
+            <input className="form-control" aria-describedby="emailHelp" value={data.f_name}  readOnly={true}/>
+
           </div>
-          <div className="frame-div44">
-            <div className="title3">No. Handphone</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">081xxxxxxxxxx</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">Nama Belakang</label>
+            <input className="form-control" aria-describedby="emailHelp" value={data.l_name}  readOnly={true}/>
+
           </div>
-          <div className="frame-div45">
-            <div className="title3">Email User</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">test@gmail.com</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">G_ID</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={data.g_id} readOnly={true}/>
+
           </div>
-          <div className="frame-div46">
-            <div className="title3">Kebangsaan</div>
-            <div className="group-div14">
-              <div className="rectangle-div10" />
-              <div className="testi3">Indonesia</div>
-            </div>
+          <div className="mb-3">
+            <label className="form-label">Visa ID</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={data.visa_ID} readOnly={true}/>
+
           </div>
-        </div>
-      </div>
+          <div className="mb-3">
+            <label className="form-label">ID User</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={data.id} readOnly={true}/>
+
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Status</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={data.active ? "Aktif" : "Belum diverifikasi"} readOnly={true}/>
+
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Tanggal Daftar</label>
+            <input  className="form-control" aria-describedby="emailHelp" value={new Date(data.createdAt).toLocaleString()} readOnly={true}/>
+
+          </div>
+        </form>
+      )}
+
     </div>
   );
 };
+
+DetailUser.propTypes = {
+  onClose: PropTypes.node.isRequired,
+  data: PropTypes.node.isRequired
+}
 
 export default DetailUser;
