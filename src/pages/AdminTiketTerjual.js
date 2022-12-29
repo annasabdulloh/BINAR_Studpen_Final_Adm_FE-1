@@ -80,7 +80,7 @@ const AdminTiketTerjual = () => {
   })
 
   return (
-    <div className='row'>
+    <div className='row w-100'>
       <div className="col-12">
         <div className="frame-div287">
           <div className="frame-div288">
