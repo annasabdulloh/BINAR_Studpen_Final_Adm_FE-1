@@ -6,6 +6,9 @@ import Loading from './Loading';
 import PortalPopup from "../components/PortalPopup";
 import Popup from "../components/Popup";
 import EditTicket from "../components/EditTicket";
+import QRCode from "react-qr-code";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const url = `${process.env.REACT_APP_API_SERVER_URL}`;
 
@@ -17,6 +20,18 @@ const getTicketsAvailable = (tickets) => {
     }
   }
   return results
+}
+
+const generatePdf = (idTarget) => {
+  console.log(document.querySelector(idTarget));
+  html2canvas(document.querySelector(idTarget),
+    { scale: 1 }
+  ).then(canvas => {
+    console.log(canvas);
+    const pdf = new jsPDF('l', 'px', [256, 256]);
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 256, 256);
+    pdf.save('checkin-myairfare.pdf');
+  });
 }
 
 const fetchData = async (callbackDatas, callbackLoading, callbackErr) => {
@@ -139,13 +154,13 @@ const AdminTiketTerjual = () => {
                              </div>
                              <i className="boarding-pass fw-bolder mt-3 text-primary">BOARDING PASS</i>
                           </div>
-                          <div className='col-md-4 mt-2'>
+                          <div className='col-md-3 mt-2'>
                             <p className='text-primary'>{data.from + " TO "}{data.dest}</p>
                             <p className='text-primary'>{data.name}</p>
                             <p className='text-primary'>{data.flight_number}</p>
                             <p className='text-primary'>{new Date(data.date_air).toLocaleString()}</p>
                           </div>
-                          <div className='col-md-4 text-center d-flex'>
+                          <div className='col-md-2 text-center d-flex'>
                             <div className='row w-100'>
                               <div className='col-12 d-flex'>
                                 <h5 className='text-primary fw-bold fw-italic mt-auto mb-2 w-100'>Harga Tiket : </h5>
@@ -155,12 +170,28 @@ const AdminTiketTerjual = () => {
                               </div>
                             </div>
                           </div>
+                          <div className="col-md-3 text-center d-flex">
+                            <div className='row'>
+                              <div id={`doc-print-${index}`} className='col-12' style={{ height: "auto", margin: "0 auto", padding: "20px", width: "100%", display: "block" }}>
+                                  <QRCode
+                                  size={1000}
+                                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                  value={data.flight_number}
+                                  viewBox={`0 0 1000 1000`}
+                                  />
+                              </div>
+                              <div className='col-12'>
+                                <button className='btn btn-success ' onClick={() => generatePdf(`#doc-print-${index}`)}> Download QR</button>
+                              </div>
+                            </div>
+                          </div>
                           <div className='col-12 mt-3 text-start'>
                             <button className='btn btn-warning ms-2 me-2' onClick={()=>{openDetailTicketPopup(data)}}>Edit</button>
                             <button className='btn btn-danger ms-2 me-2' onClick={()=>{openPopupDel(data)}}>Hapus</button>
                           </div>
                         </div>
                       </div>
+                      
                     </div>
                   )
                 })}

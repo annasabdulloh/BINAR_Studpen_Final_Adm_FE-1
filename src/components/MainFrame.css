@@ -773,7 +773,7 @@
     box-sizing: border-box;
   }
   .column-layout-frame5 {
-    padding: var(--padding-xs) var(--padding-lg);
+    /* padding: var(--padding-xs) var(--padding-lg); */
     box-sizing: border-box;
   }
   .section5 {

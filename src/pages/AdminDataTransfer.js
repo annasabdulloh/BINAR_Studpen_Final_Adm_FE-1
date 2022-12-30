@@ -58,10 +58,10 @@ const DataTransfer = () => {
     <>
       <div className='w-100'>
         <div className="">
-          <div className="frame-div160">
+          <div className="frame-div160 ps-0">
             <div className="description2">Daftar Pembayaran User</div>
           </div>
-          <div className="text-dark p-4">
+          <div className="text-dark">
             {/*  */}
             {/* {users !== null ? console.log(users.transaction) : console.log('Data User masih kosong')} */}
             <div className='row w-100'>

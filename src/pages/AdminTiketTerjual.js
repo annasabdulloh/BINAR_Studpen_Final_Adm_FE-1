@@ -6,6 +6,9 @@ import Loading from './Loading';
 import PortalPopup from "../components/PortalPopup";
 import Popup from "../components/Popup";
 import DetailTicket from "../components/DetailTicket";
+import QRCode from "react-qr-code";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const url = `${process.env.REACT_APP_API_SERVER_URL}`;
 
@@ -17,6 +20,18 @@ const getTicketsSealed = (tickets) => {
     }
   }
   return results
+}
+
+const generatePdf = (idTarget) => {
+  console.log(document.querySelector(idTarget));
+  html2canvas(document.querySelector(idTarget),
+    { scale: 1 }
+  ).then(canvas => {
+    console.log(canvas);
+    const pdf = new jsPDF('l', 'px', [256, 256]);
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 256, 256);
+    pdf.save('checkin-myairfare.pdf');
+  });
 }
 
 const fetchData = async (callbackDatas, callbackLoading, callbackErr) => {
@@ -119,6 +134,7 @@ const AdminTiketTerjual = () => {
                   <th scope='col'>Kelas</th>
                   <th scope='col'>Harga</th>
                   <th scope='col'>Kursi Terjual</th>
+                  <th scope='col'> QR ticket</th>
                   <th scope='col'>Aksi</th>
                 </tr>
               </thead>
@@ -139,6 +155,23 @@ const AdminTiketTerjual = () => {
                       <td>{data.ticketClass.name}</td>
                       <td>{data.price}</td>
                       <td>{data.no_chair - data.available.length} Kursi dari {data.no_chair} Kursi</td>
+                      <td>
+                          <div className="text-center d-flex">
+                            <div className='row'>
+                              <div id={`doc-print-${index}`} className='col-12' style={{ height: "auto", margin: "0 auto", padding: "20px", width: "100%", display: "block" }}>
+                                  <QRCode
+                                  size={1000}
+                                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                  value={data.flight_number}
+                                  viewBox={`0 0 1000 1000`}
+                                  />
+                              </div>
+                              <div className='col-12'>
+                                <button className='btn btn-success ' onClick={() => generatePdf(`#doc-print-${index}`)}> Download QR</button>
+                              </div>
+                            </div>
+                          </div>
+                      </td>
                       <td>
                         <btn className="btn btn-primary w-100 mt-2 mb-2 ms-2 me-2" onClick={() => { openDetailTicketPopup(data) }}>Detail</btn>
                         <br />
