@@ -130,16 +130,6 @@ function MainFrame({ children }) {
               </div>
             </div>
           </div>
-          <div className={'nav-item77 ' + (window.location.pathname == '/admin-datatransfer1' ? 'active' : '')} onClick={onNavItemContainer5Click}>
-            <div className="leading-icon-nav-link77">
-              <div className="leading-icon77">
-                <img className="home-icon9" alt="" src="../chat4.svg" />
-              </div>
-              <div className="leading-icon72">
-                <div className="dashboard35">Data Transfer</div>
-              </div>
-            </div>
-          </div>
           {/* <div className="nav-item78">
               <div className="leading-icon-nav-link72">
                 <div className="leading-icon72">
